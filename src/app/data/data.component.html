@@ -1,0 +1,120 @@
+<div class=" min-h-screen">
+  <div>
+    <p class="font-dancing font-bold text-center text-6xl py-12"><span class=" text-purple-700">I</span>ndatac<span class="text-purple-700">o</span>re</p>
+  </div>
+
+  <!-- Search Bar -->
+  <div class=" flex justify-center items-center gap-2 mt-24 ">
+    <input type="text" placeholder="Search" class=" outline-none border-2 rounded-md px-2 py-1 font-poppins border-purple-400 drop-shadow-xl lg:w-1/5 w-1/2" [(ngModel)]=searchText>
+  </div>
+
+  <!-- dataTable -->
+  <div class=" mt-8 lg:mx-28 ml-12">
+    <table class="min-w-full overflow-x-auto divide-y divide-gray-500 drop-shadow-2xl">
+      <thead class="bg-gray-100">
+      <tr>
+        <th scope="col" class=" hidden lg:table-cell py-3.5 px-4 text-sm font-poppins text-left rtl:text-right text-gray-500 dark:text-gray-400">
+          movie number
+        </th>
+
+        <th scope="col" class="px-4 py-3.5 text-sm font-poppins text-left rtl:text-right text-gray-500 dark:text-gray-400">
+          Title
+        </th>
+
+        <th scope="col" class="px-4 py-3.5 text-sm font-poppins text-left rtl:text-right text-gray-500 dark:text-gray-400">
+          Director
+        </th>
+
+        <th scope="col" class="px-4 py-3.5 text-sm font-poppins text-left rtl:text-right text-gray-500 dark:text-gray-400">
+          ReleaseYear
+        </th>
+
+
+        <th scope="col" class="px-4 py-3.5 text-sm font-poppins text-left rtl:text-right text-gray-500 dark:text-gray-400">
+          Genre
+        </th>
+
+        <th scope="col" class="relative py-3.5 px-4">
+          <span class="sr-only">Delete</span>
+        </th>
+      </tr>
+      </thead>
+      <tbody class="bg-gray-400 divide-y divide-gray-200 ">
+
+      <tr *ngFor="let movie of movies | search : searchText | paginate: { itemsPerPage: itemsPerPage, currentPage: p }">
+        <td class=" hidden lg:table-cell px-4 py-4 text-sm font-bold font-poppins text-white whitespace-nowrap">{{movie.id}}</td>
+        <td class="px-4 py-4 text-sm font-bold font-poppins text-white whitespace-nowrap">{{movie.title}}</td>
+        <td class="px-4 py-4 text-sm font-bold font-poppins text-white whitespace-nowrap">{{movie.director}}</td>
+        <td class="px-4 py-4 text-sm font-bold font-poppins text-white whitespace-nowrap">{{movie.releaseYear}}</td>
+        <td class="px-4 py-4 text-sm font-bold font-poppins text-white whitespace-nowrap">{{movie.genre}}</td>
+        <td class="px-4 py-4 text-sm font-bold font-poppins text-white whitespace-nowrap">
+          <div class=" flex gap-4">
+            <div class=" bg-white rounded-full py-1 px-1 w-fit">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" (click)="deleteItem(movie.id)"
+
+                   class="w-6 h-6 text-red-600 hover:cursor-pointer hover:text-red-200 duration-200">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+              </svg>
+            </div>
+
+            <div class=" bg-white rounded-full py-1 px-1 w-fit">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" (click)="showUpdateInfos(movie.id)"
+                   class="w-6 h-6 text-red-600 hover:cursor-pointer hover:text-red-200 duration-200">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+              </svg>
+
+            </div>
+          </div>
+
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class=" flex justify-center py-8 items-center">
+    <pagination-controls (pageChange)="p = $event" previousLabel="" nextLabel=""></pagination-controls>
+  </div>
+
+
+</div>
+
+<div class=" absolute top-0 w-full h-full bg-black bg-opacity-60" *ngIf="showUpdate">
+  <div class=" flex justify-center items-center h-full">
+    <div class=" bg-white rounded-2xl  py-8">
+      <p class=" font-bold font-poppins text-4xl text-center text-purple-700 px-28">Update</p>
+
+      <form class=" grid py-8 px-4" (ngSubmit)="submitForm()" >
+        <label class=" font-poppins font-bold text-gray-600 mt-2">Title</label>
+        <input type="text" class=" mt-2 rounded-lg py-2 border-2 border-gray-200 outline-none px-2 font-poppins text-sm"
+            id="title" [(ngModel)]="title" [ngModelOptions]="{standalone: true}">
+
+        <label class=" font-poppins font-bold text-gray-600 mt-2">Director</label>
+        <input type="text" class=" mt-2 rounded-lg py-2 border-2 border-gray-200 outline-none px-2 font-poppins text-sm"
+               id="director" [(ngModel)]="director" [ngModelOptions]="{standalone: true}">
+
+        <label class=" font-poppins font-bold text-gray-600 mt-2">Relase Year</label>
+        <input type="text" class=" mt-2 rounded-lg py-2 border-2 border-gray-200 outline-none px-2 font-poppins text-sm"
+               id="releaseYear" [(ngModel)]="releaseYear" [ngModelOptions]="{standalone: true}">
+
+        <label class=" font-poppins font-bold text-gray-600 mt-2">Genre</label>
+        <input type="text" class=" mt-2 rounded-lg py-2 border-2 border-gray-200 outline-none px-2 font-poppins text-sm"
+               id="genre" [(ngModel)]="genre" [ngModelOptions]="{standalone: true}">
+
+        <div class=" flex justify-center mt-12">
+          <button class="bg-purple-700 px-6 py-2 rounded-md text-white font-bold font-poppins hover:drop-shadow-2xl hover:bg-white hover:text-purple-700 hover:duration-200"
+          >
+            Update
+          </button>
+        </div>
+
+        <div class=" mt-4">
+          <p class=" font-poppins font-bold text-gray-400 text-center hover:cursor-pointer" (click)="showUpdate = !showUpdate">Cancel</p>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+
+</div>

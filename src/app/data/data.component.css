@@ -1,0 +1,18 @@
+/* Your global styles */
+.ngx-pagination a,
+.ngx-pagination button {
+  color: #e01db0;
+  display: block;
+  padding: 0.1875rem 0.625rem;
+  border-radius: 0;
+}
+
+/* Specific styles for the current page */
+.ngx-pagination .current {
+  padding: 0.1875rem 0.625rem;
+  background: #9600e0;
+  color: #fefefe;
+  cursor: default;
+  border-radius: 50%;
+  font-family: 'Poppins', sans-serif; /* Use correct font name */
+}
