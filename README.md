@@ -20,7 +20,7 @@ Make sure you have the following installed:
 
 Clone the repository and install dependencies:
 
- - git clone [repository-url]
+ - git clone https://github.com/YasserLach/indatacore_frontend.git
  - cd [project-folder]
  - npm install
 
